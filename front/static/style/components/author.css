@@ -1,0 +1,49 @@
+.author-div{
+    text-align: center;
+    padding: 1rem;
+
+}
+.author-div div{
+    margin-bottom: 1rem;
+
+}
+.author-introduction{
+    font-size:.9rem;
+    color: black;
+}
+.account-git{
+    background-color: #999;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+.account-git:hover{
+    background-color: #999;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    content: url("https://i.loli.net/2021/01/09/JIQxruS6ZlgMetT.jpg");
+}
+.account-zh{
+    background-color: #999;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+.account-zh:hover{
+    background-color: #999;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    content: url("https://i.loli.net/2021/01/09/wRl65N21HUCzeIc.jpg");
+}
+.account-wx{
+    background-color: #999;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+.account-wx:hover{
+    background-color: #999;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    content: url("https://i.loli.net/2021/01/09/FYRA6yncfU7P5mu.jpg");
+}
+.social:hover{
+    color: #1e90ff;
+}
