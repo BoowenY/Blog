@@ -33,15 +33,26 @@ module.exports = appInfo => {
       // username
       user: 'root',
       // password
-      password: '54188yang',
+      password: '54188888',
       // database
-      database: 'blog',    
+      database: 'BLOG',    
     },
     // load into app, default is open
     app: true,
     // load into agent, default is close
     agent: false,
   };
+
+  　　config.security = {
+    　　　　csrf: {
+    　　　　　　enable: false
+    　　　　},
+    　　　　domainWhiteList: [ '*' ]
+    　　};
+     config.cors = {
+        origin: '*',
+        allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
+    };
 
   return {
     ...config,
