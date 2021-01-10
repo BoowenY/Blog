@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import { Row, Col, Affix, Icon, Breadcrumb } from "antd";
-import axios from 'axios'
+import axios from "axios";
 import Header from "../components/Header";
 import Author from "../components/Author";
 import Advert from "../components/Advert";
 import Footer from "../components/Footer";
 import "../static/style/pages/detailed.css";
 import ReactMarkdown from "react-markdown";
-import MarkNav from 'markdown-navbar';
-import 'markdown-navbar/dist/navbar.css';
-import marked from 'marked'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/monokai-sublime.css';
+import MarkNav from "markdown-navbar";
+import "markdown-navbar/dist/navbar.css";
+import marked from "marked";
+import hljs from "highlight.js";
+import "highlight.js/styles/monokai-sublime.css";
 
-const Detailed = () => {
-
+const Detailed = (props) => {
   const renderer = new marked.Renderer();
 
-marked.setOptions({
-    renderer: renderer, 
+  marked.setOptions({
+    renderer: renderer,
     gfm: true,
     pedantic: false,
     sanitize: false,
@@ -28,11 +27,11 @@ marked.setOptions({
     smartLists: true,
     smartypants: false,
     highlight: function (code) {
-            return hljs.highlightAuto(code).value;
-    }
-  }); 
+      return hljs.highlightAuto(code).value;
+    },
+  });
 
-    let html = marked(props.article_content) 
+  let html = marked(props.article_content);
   return (
     <>
       <Head>
@@ -69,9 +68,7 @@ marked.setOptions({
                 </span>
               </div>
 
-              <div className="detailed-content">
-                {html}
-              </div>
+              <div className="detailed-content">{html}</div>
             </div>
           </div>
         </Col>
@@ -82,11 +79,7 @@ marked.setOptions({
           <Affix offsetTop={5}>
             <div className="detailed-nav comm-box">
               <div className="nav-title">文章目录</div>
-              <MarkNav
-                className="article-menu"
-                source={html}
-                ordered={false}
-              />
+              <MarkNav className="article-menu" source={html} ordered={false} />
             </div>
           </Affix>
         </Col>
@@ -96,21 +89,17 @@ marked.setOptions({
   );
 };
 
-Detailed.getInitialProps = async(context)=>{
+Detailed.getInitialProps = async (context) => {
+  console.log(context.query.id);
+  let id = context.query.id;
+  const promise = new Promise((resolve) => {
+    axios("http://127.0.0.1:7001/default/getArticleById/" + id).then((res) => {
+      console.log(res);
+      resolve(res.data.data[0]);
+    });
+  });
 
-  console.log(context.query.id)
-  let id =context.query.id
-  const promise = new Promise((resolve)=>{
-
-    axios('http://127.0.0.1:7001/default/getArticleById/'+id).then(
-      (res)=>{
-        console.log(res)
-        resolve(res.data.data[0])
-      }
-    )
-  })
-
-  return await promise
-}
+  return await promise;
+};
 
 export default Detailed;
