@@ -8,6 +8,7 @@ import "../static/style/pages/index.css";
 import Footer from "../components/Footer";
 import axios from "axios";
 import Link from "next/link";
+import servicePath from "../config/apiUrl";
 const Home = (list) => {
   console.log(list);
   //---------主要代码-------------start
@@ -64,8 +65,7 @@ const Home = (list) => {
 };
 Home.getInitialProps = async () => {
   const promise = new Promise((resolve) => {
-    axios("http://127.0.0.1:7001/default/getArticleList").then((res) => {
-      //console.log('远程获取数据结果:',res.data.data)
+    axios(servicePath.getArticleList).then((res) => {
       resolve(res.data);
     });
   });

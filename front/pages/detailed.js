@@ -1,24 +1,34 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import { Row, Col, Affix, Icon, Breadcrumb } from "antd";
-import axios from "axios";
+
 import Header from "../components/Header";
 import Author from "../components/Author";
 import Advert from "../components/Advert";
 import Footer from "../components/Footer";
 import "../static/style/pages/detailed.css";
-import ReactMarkdown from "react-markdown";
 import MarkNav from "markdown-navbar";
 import "markdown-navbar/dist/navbar.css";
+import axios from "axios";
 import marked from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/monokai-sublime.css";
+import Tocify from "../components/tocify.tsx";
+import servicePath from "../config/apiUrl";
 
 const Detailed = (props) => {
+  let articleContent = props.article_content;
+
+  const tocify = new Tocify();
   const renderer = new marked.Renderer();
+  renderer.heading = function (text, level, raw) {
+    const anchor = tocify.add(text, level);
+    return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
+  };
 
   marked.setOptions({
     renderer: renderer,
+
     gfm: true,
     pedantic: false,
     sanitize: false,
@@ -26,12 +36,14 @@ const Detailed = (props) => {
     breaks: false,
     smartLists: true,
     smartypants: false,
+
     highlight: function (code) {
       return hljs.highlightAuto(code).value;
     },
   });
 
   let html = marked(props.article_content);
+
   return (
     <>
       <Head>
@@ -46,29 +58,30 @@ const Detailed = (props) => {
                 <Breadcrumb.Item>
                   <a href="/">首页</a>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>视频列表</Breadcrumb.Item>
-                <Breadcrumb.Item>xxxx</Breadcrumb.Item>
+                <Breadcrumb.Item>{props.typeName}</Breadcrumb.Item>
+                <Breadcrumb.Item> {props.title}</Breadcrumb.Item>
               </Breadcrumb>
             </div>
 
             <div>
-              <div className="detailed-title">
-                React实战视频教程-技术胖Blog开发(更新08集)
-              </div>
+              <div className="detailed-title">{props.title}</div>
 
               <div className="list-icon center">
                 <span>
-                  <Icon type="calendar" /> 2019-06-28
+                  <Icon type="calendar" /> {props.addTime}
                 </span>
                 <span>
-                  <Icon type="folder" /> 视频教程
+                  <Icon type="folder" /> {props.typeName}
                 </span>
                 <span>
-                  <Icon type="fire" /> 5498人
+                  <Icon type="fire" /> {props.view_count}
                 </span>
               </div>
 
-              <div className="detailed-content">{html}</div>
+              <div
+                className="detailed-content"
+                dangerouslySetInnerHTML={{ __html: html }}
+              ></div>
             </div>
           </div>
         </Col>
@@ -79,7 +92,7 @@ const Detailed = (props) => {
           <Affix offsetTop={5}>
             <div className="detailed-nav comm-box">
               <div className="nav-title">文章目录</div>
-              <MarkNav className="article-menu" source={html} ordered={false} />
+              <div className="toc-list">{tocify && tocify.render()}</div>
             </div>
           </Affix>
         </Col>
@@ -93,8 +106,8 @@ Detailed.getInitialProps = async (context) => {
   console.log(context.query.id);
   let id = context.query.id;
   const promise = new Promise((resolve) => {
-    axios("http://127.0.0.1:7001/default/getArticleById/" + id).then((res) => {
-      console.log(res);
+    axios(servicePath.getArticleById + id).then((res) => {
+      // console.log(title)
       resolve(res.data.data[0]);
     });
   });
