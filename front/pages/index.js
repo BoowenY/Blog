@@ -17,14 +17,14 @@ const Home = (list) => {
   return (
     <>
       <Head>
-        <title>Home</title>
+        <title>???</title>
       </Head>
       <Header />
       <Row className="comm-main" type="flex" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
           <div>
             <List
-              header={<div>最新日志</div>}
+              header={<div>Latest News</div>}
               itemLayout="vertical"
               dataSource={mylist}
               renderItem={(item) => (
