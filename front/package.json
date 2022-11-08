@@ -17,7 +17,7 @@
     "lodash": "^4.17.20",
     "markdown-navbar": "^1.4.3",
     "marked": "^1.2.7",
-    "next": "10.0.5",
+    "next": "10.2.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-markdown": "^5.0.3"
